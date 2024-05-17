@@ -1,0 +1,32 @@
+modLoader = "kotlinforforge"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "unimplemented_items"
+version = "1.5-forge-1.0.0"
+displayName = "Unimplemented Items"
+description = '''
+Adds items that don't exist in Cobblemon yet.
+'''
+
+[[dependencies.unimplemented_items]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1]"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.unimplemented_items]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.unimplemented_items]]
+modId = "cobblemon"
+mandatory = true
+versionRange = "[1.5.0,1.6.0)"
+ordering = "NONE"
+side = "BOTH"
