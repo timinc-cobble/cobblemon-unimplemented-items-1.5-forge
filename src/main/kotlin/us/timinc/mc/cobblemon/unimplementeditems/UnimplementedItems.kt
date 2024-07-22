@@ -129,7 +129,7 @@ object UnimplementedItems {
 
             e.table.addPool(
                 LootPool.Builder()
-                    .add(LootTableReference.lootTableReference(ResourceLocation(MOD_ID, "injection/${e.name.path}")))
+                    .add(LootTableReference.lootTableReference(ResourceLocation(MOD_ID, "overrides/${e.name.path}")))
                     .build()
             )
         }
