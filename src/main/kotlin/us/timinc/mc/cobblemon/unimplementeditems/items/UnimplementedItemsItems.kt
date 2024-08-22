@@ -28,4 +28,5 @@ object UnimplementedItemsItems {
     val POWER_ANKLET = Item(Item.Properties())
     val ABILITY_CAPSULE = Item(Item.Properties())
     val ABILITY_PATCH = AbilityPatch()
+    val SHINY_CHARM = Item(Item.Properties())
 }

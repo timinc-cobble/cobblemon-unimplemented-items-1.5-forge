@@ -1,6 +1,7 @@
 package us.timinc.mc.cobblemon.unimplementeditems
 
 import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawnerFactory
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.BlockItem
@@ -19,6 +20,7 @@ import net.minecraftforge.registries.RegisterEvent
 import us.timinc.mc.cobblemon.unimplementeditems.blocks.UnimplementedItemsBlocks
 import us.timinc.mc.cobblemon.unimplementeditems.config.ConfigBuilder
 import us.timinc.mc.cobblemon.unimplementeditems.config.UnimplementedItemsConfig
+import us.timinc.mc.cobblemon.unimplementeditems.influences.ShinyCharm
 import us.timinc.mc.cobblemon.unimplementeditems.items.PostBattleItem
 import us.timinc.mc.cobblemon.unimplementeditems.items.UnimplementedItemsItems
 
@@ -54,6 +56,7 @@ object UnimplementedItems {
                 it.register(myResourceLocation("power_lens"), UnimplementedItemsItems.POWER_LENS)
                 it.register(myResourceLocation("power_band"), UnimplementedItemsItems.POWER_BAND)
                 it.register(myResourceLocation("power_anklet"), UnimplementedItemsItems.POWER_ANKLET)
+                it.register(myResourceLocation("shiny_charm"), UnimplementedItemsItems.SHINY_CHARM)
 
                 it.register(myResourceLocation("repel"), BlockItem(UnimplementedItemsBlocks.REPEL, Item.Properties()))
 
@@ -96,6 +99,7 @@ object UnimplementedItems {
                 event.accept(UnimplementedItemsItems.POWER_LENS)
                 event.accept(UnimplementedItemsItems.POWER_BRACER)
                 event.accept(UnimplementedItemsItems.POWER_WEIGHT)
+                event.accept(UnimplementedItemsItems.SHINY_CHARM)
             }
 
             if (event.tabKey === CreativeModeTabs.FUNCTIONAL_BLOCKS) {
@@ -108,6 +112,7 @@ object UnimplementedItems {
     object UnimplementedItemsForge {
         @SubscribeEvent
         fun onInit(e: ServerStartedEvent) {
+            PlayerSpawnerFactory.influenceBuilders.add(::ShinyCharm)
             CobblemonEvents.BATTLE_VICTORY.subscribe { event ->
                 val ownedPokemon = event.battle.actors.flatMap { it.pokemonList }.map { it.originalPokemon }
                     .filter { it.isPlayerOwned() }

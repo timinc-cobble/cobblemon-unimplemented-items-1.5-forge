@@ -6,6 +6,7 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables
 
 class UnimplementedItemsConfig {
     val abilityPatchGen9: Boolean = true
+    val shinyCharmBonusRolls: Int = 2
     val lootPoolOverrides: List<ResourceLocation> = listOf(
         BuiltInLootTables.FISHING_TREASURE,
         Blocks.GRASS.lootTable
