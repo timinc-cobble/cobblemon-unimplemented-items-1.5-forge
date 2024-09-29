@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.RegisterEvent
 import us.timinc.mc.cobblemon.unimplementeditems.blocks.UnimplementedItemsBlocks
+import us.timinc.mc.cobblemon.unimplementeditems.blocks.UnimplementedItemsBlocks.REPEL
 import us.timinc.mc.cobblemon.unimplementeditems.config.ConfigBuilder
 import us.timinc.mc.cobblemon.unimplementeditems.config.UnimplementedItemsConfig
 import us.timinc.mc.cobblemon.unimplementeditems.influences.ShinyCharm
@@ -124,6 +125,29 @@ object UnimplementedItems {
                     }
                 }
             }
+
+            CobblemonEvents.POKEMON_ENTITY_SPAWN.subscribe { event ->
+                val spawned = event.entity
+                if (!spawned.pokemon.isWild()) return@subscribe
+
+                val spawnedWorld = spawned.level()
+                val spawnedPos = event.ctx.position
+
+                debug("Wild ${spawned.pokemon.species.name} ${spawned.uuid} spawned at $spawnedPos")
+
+                for (xOff in -10..10) {
+                    for (yOff in -10..10) {
+                        for (zOff in -10..10) {
+                            val pos = spawnedPos.offset(xOff, yOff, zOff)
+                            if (spawnedWorld.getBlockState(pos).`is`(REPEL)) {
+                                debug("Cancelling spawn ${spawned.uuid}")
+                                event.cancel()
+                                return@subscribe
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         @SubscribeEvent
@@ -142,5 +166,11 @@ object UnimplementedItems {
 
     fun myResourceLocation(str: String): ResourceLocation {
         return ResourceLocation(MOD_ID, str)
+    }
+
+    fun debug(msg: String) {
+        if (!config.debug) return
+
+        println(msg)
     }
 }
