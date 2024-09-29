@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.RegisterEvent
 import us.timinc.mc.cobblemon.unimplementeditems.blocks.UnimplementedItemsBlocks
+import us.timinc.mc.cobblemon.unimplementeditems.blocks.UnimplementedItemsBlocks.REPEL
 import us.timinc.mc.cobblemon.unimplementeditems.config.ConfigBuilder
 import us.timinc.mc.cobblemon.unimplementeditems.config.UnimplementedItemsConfig
 import us.timinc.mc.cobblemon.unimplementeditems.influences.ShinyCharm
@@ -121,6 +122,24 @@ object UnimplementedItems {
                     val heldItem = heldItemStack.item
                     if (heldItem is PostBattleItem) {
                         heldItem.doPostBattle(heldItemStack, pokemon, event)
+                    }
+                }
+            }
+
+            CobblemonEvents.POKEMON_ENTITY_SPAWN.subscribe { event ->
+                val spawned = event.entity
+                if (!spawned.pokemon.isWild()) return@subscribe
+
+                val spawnedWorld = spawned.level()
+                val spawnedPos = event.ctx.position
+                for (xOff in -10..10) {
+                    for (yOff in -10..10) {
+                        for (zOff in -10..10) {
+                            val pos = spawnedPos.offset(xOff, yOff, zOff)
+                            if (spawnedWorld.getBlockState(pos).`is`(REPEL)) {
+                                event.cancel()
+                            }
+                        }
                     }
                 }
             }
