@@ -132,12 +132,17 @@ object UnimplementedItems {
 
                 val spawnedWorld = spawned.level()
                 val spawnedPos = event.ctx.position
+
+                debug("Wild ${spawned.pokemon.species.name} ${spawned.uuid} spawned at $spawnedPos")
+
                 for (xOff in -10..10) {
                     for (yOff in -10..10) {
                         for (zOff in -10..10) {
                             val pos = spawnedPos.offset(xOff, yOff, zOff)
                             if (spawnedWorld.getBlockState(pos).`is`(REPEL)) {
+                                debug("Cancelling spawn ${spawned.uuid}")
                                 event.cancel()
+                                return@subscribe
                             }
                         }
                     }
@@ -161,5 +166,11 @@ object UnimplementedItems {
 
     fun myResourceLocation(str: String): ResourceLocation {
         return ResourceLocation(MOD_ID, str)
+    }
+
+    fun debug(msg: String) {
+        if (!config.debug) return
+
+        println(msg)
     }
 }

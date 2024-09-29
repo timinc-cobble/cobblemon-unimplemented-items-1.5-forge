@@ -11,4 +11,5 @@ class UnimplementedItemsConfig {
         BuiltInLootTables.FISHING_TREASURE,
         Blocks.GRASS.lootTable
     )
+    val debug: Boolean = false
 }
